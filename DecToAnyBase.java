@@ -1,40 +1,48 @@
 public class DecToAnyBase {
 
     // Recursive conversion with exception handling
-    static int convert(int n, int base) {
+
+
+    public static String convert(int n, int base) {
+
+        // Error handling
         if (n < 0) {
             throw new IllegalArgumentException("Number cannot be negative");
         }
+
         if (base < 2 || base > 16) {
             throw new IllegalArgumentException("Base must be between 2 and 16");
         }
 
-        if (n == 0) {  // base case
-            return 0;
+        String[] digitStrings = {"0", "1", "2", "3", "4", "5",
+                                 "6", "7", "8", "9", "A", "B",
+                                 "C", "D", "E", "F"};
+
+        // Base case
+        if (n < base) {
+            return digitStrings[n];
         }
 
-        return convert(n / base, base) * 10 + (n % base);
+        // Recursive case
+        int remainder = n % base;
+        return convert(n / base, base) + digitStrings[remainder];
     }
 
     public static void main(String[] args) {
+
         try {
-            int number = 25; // decimal number
-            int base = 2;    // base (2–16)
 
-            int result = convert(number, base);
+            System.out.println("13 in base 2: " + convert(13, 2));     
+            System.out.println("1066 in base 16: " + convert(1066, 16));
 
-            System.out.println("Decimal: " + number);
-            System.out.println("Base " + base + ": " + result);
-
-            // Test with invalid input
-            int invalidNumber = -5;
-            int invalidBase = 20;
-            convert(invalidNumber, 2);  // throws exception
-            convert(10, invalidBase);   // throws exception
+            // Example of invalid input
+            System.out.println(convert(-5, 2));
 
         } catch (IllegalArgumentException e) {
-            System.out.println("Exception caught: " + e.getMessage());
+
+            System.out.println("Error: " + e.getMessage());
+
         }
-    }
+    
 }
 /*reference link-https://runestone.academy/ns/books/published/javads/recursion_converting-an-integer-to-a-string-in-any-base.html */
